@@ -14,7 +14,7 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-	<link rel="shortcut icon" href="../img/favicon.png" />
+        <link rel="shortcut icon" href="../img/favicon.png" />
 
         <link rel="stylesheet" href="css/reveal.css">
         <link rel="stylesheet" href="css/theme/ncsu-geoforall-lab.css" id="theme">
@@ -90,18 +90,332 @@
 <section>
 <h2>Creating Urbanization Scenarios with the FUTURES Model</h2>
     <h3 style="margin-top: 0.5em">
-        Vaclav (Vashek) Petras, Anna Petrasova, &amp; Ross K. Meentemeyer</h3>
+        Vaclav (Vashek) Petras, Anna Petrasova, Georgina&nbsp;M.&nbsp;Sanchez, Derek Van Berkel &amp; Ross&nbsp;K.&nbsp;Meentemeyer</h3>
     <p class="title-foot">
-        <a href="http://www.ncsu.edu/" title="North Carolina State University">NCSU</a>
-        <a href="http://geospatial.ncsu.edu/osgeorel/" title="NCSU GeoForAll Lab">GeoForAll Lab</a>
-        at the
-        <a href="http://geospatial.ncsu.edu/" title="Center for Geospatial Analytics">Center for Geospatial Analytics</a>
+        <a href="http://geospatial.ncsu.edu/geoforall/" title="NCSU GeoForAll Lab">NCSU GeoForAll Lab</a>
+        and
+        <a href="https://geospatial.ncsu.edu/landscapedynamics/" title="NCSU Landscape Dynamics Group">Landscape Dynamics Group</a>
         <br>
-        North Carolina State University
+        at the
+        <a href="http://geospatial.ncsu.edu/" title="Center for Geospatial Analytics">Center for Geospatial Analytics</a>,
+        <br>
+        <a href="http://www.ncsu.edu/" title="North Carolina State University">North Carolina State University</a>
     </p>
     <p>
         NCGIS 2019 Winston-Salem<br>
         Feb 27 - Mar 1, 2019
+    </p>
+</section>
+
+
+<section>
+<h3>Motivation</h3>
+
+</section>
+
+
+<section>
+<h3>No Room for a Black Box</h3>
+Can we understand the behavior of the model?
+<br/>
+Can we make sure it is working as described?
+<p>
+<img width="90%" src="img/blackbox.png">
+
+<aside class="notes">
+There are numerous challenges for the urban growth and land change models,
+one of them is that the algorithms are often black boxes.
+Black box here means that the model provides little explanatory
+insight into the influence of the independent variables
+in the prediction process.
+Also many published models do not provide their software implementation,
+so all possible problems are hidden and the models algorithms
+cannot be adjusted when applied to different study system.
+</aside>
+</section>
+
+
+<section class="textimg">
+<h2>FUTURES</h2>
+<div style="max-width: 65% !important;">
+<p><strong>FUT</strong>ure <strong>U</strong>rban-<strong>R</strong>egional
+     <strong>E</strong>nvironment <strong>S</strong>imulation<br> (Meentemeyer et al., 2013)</p>
+<ul>
+<li>stochastic, patch-based urban growth model</li>
+<li>accounts for location, quantity, and pattern of change</li>
+<li>positive feedbacks (new development attracts more development)</li>
+<li>allows spatial non-stationarity</li>
+</ul>
+</div>
+
+<img style="margin-top:3em;max-width: 33% !important;" width="90%" src="img/PGA.gif">
+<aside class="notes">
+    FUTURES, an urban growth model
+    developed originally by Meentemeyer et al.
+    FUTURES is a stochastic model, where new development occurs in discrete patches,
+    it accounts for ...
+</aside>
+</section>
+
+
+<section class="textimg">
+<h2>FUTURES highlights</h2>
+<ul style="max-width:31% !important">
+<li style="margin: 20px">realistic spatial pattern</li>
+<li style="margin: 20px">modular</li>
+<li style="margin: 20px">transparent (open source)</li>
+<li style="margin: 20px">available (open source including its dependencies)</li>
+</ul>
+<img style="max-width:60% !important" src="img/schema.png">
+
+<aside class="notes">
+FUTURES stands out because it can model realistic spatial patterns,
+is modular and makes the modeling transparent thanks
+to its new open source implementation.
+</aside>
+</section>
+
+
+<section>
+<h2>FUTURES</h2>
+<img style="margin-top:2em;margin-left:5em; max-width: 58% !important;"
+ src="img/FUTURES_schema.png">
+<aside class="notes">
+This is a basic schema of FUTURES, where the modeling framework is
+based on 3 components: POTENTIAL submodel providing the information
+where will urbanization likely happen, the DEMAND specifies how much
+land will be developed and the third component PGA (meaning Patch Growing Algorithm)
+is the actual engine of FUTURES, growing the patches of calibrated size and shape.
+</aside>
+</section>
+
+
+<section>
+<h2>POTENTIAL</h2>
+<ul>
+<li>multilevel logistic regression for development suitability
+accounts for variation among subregions (for example policies
+in different counties)</li>
+<li>inputs are uncorrelated predictors (distance to roads and development, slope, ...)</li>
+</ul>
+</section>
+
+
+<section class="textimg">
+<h2>DEMAND</h2>
+<ul>
+<li>estimates the rate of per capita land consumption for
+each subregion</li>
+<li>extrapolates between historical changes in population and land conversion</li>
+<li>inputs are historical landuse, population data, population projection</li>
+</ul>
+<img src="img/r_futures_demand_plot_logarithmic.png">
+</section>
+
+
+<section class="textimg">
+<h2>PGA</h2>
+<ul>
+<li>stochastic algorithm</li>
+<li>converts land in discrete patches</li>
+<li>inputs are patch characteristics (distribution of patch sizes and compactness)
+derived from historical data</li>
+</ul>
+<img src="img/PGA.gif">
+</section>
+
+
+<section>
+<h2>Open source FUTURES</h2>
+<p style="text-align: left">To go beyond experimental prototype we needed to make FUTURES:
+<ul style="margin-top:1em">
+<li>more efficient and scalable</li>
+<li>as easy to use as possible for a wider audience</li>
+<li>open source and maintainable in the long run</li>
+</ul>
+<p>&#8658; new FUTURES GRASS GIS add-on
+     <a href="https://grass.osgeo.org/grass70/manuals/addons/r.futures.html">r.futures</a>
+</p>
+
+<img src="img/open_science_logo_CC_BY-SA_Greg_Emmerich.gif" class="stretch">
+<p class="credit">
+    Image credit:
+    <a href="https://www.flickr.com/photos/gemmerich/8732559382/in/photostream/">Open Science Logo v2</a>,
+    CC BY-SA 3.0 Greg Emmerich
+</p>
+
+<aside class="notes">
+The original implementation of FUTURES was a research prototype
+which couldn't be effectively shared with the land change community
+because it was difficult to run it and didn't scale very well.
+So we decided to go beyond this prototype. We made the model
+simpler to run so that all our colleagues and also wider audience
+can use it in their research without extensive training.
+With the goal to study large-scale urbanization in high detail
+we made the model more efficient and parallelized.
+We don't share just binaries but we made the model
+fully open source and implemented it in GRASS GIS, a stable, powerful
+geospatial platform to ensure the model is available and maintained
+and can be used by the community even if the original
+authors cannot support it for lack of funding for example.
+</aside>
+</section>
+
+
+<section>
+<h3>Why GRASS GIS?</h3>
+<div>
+<p style="text-align: left">For model developers:
+<ul>
+<li style="margin: 10px">modular architecture: modules in C/C++ and Python</li>
+<li style="margin: 10px">all needed GIS functions at hand</li>
+<li style="margin: 10px">efficient I/O libraries</li>
+<li style="margin: 10px">able to process large datasets</li>
+<li style="margin: 10px">automatically generated CLI and GUI</li>
+<li style="margin: 10px">infrastructure for online manual pages</li>
+<li style="margin: 10px">daily compiled binaries for Windows<br/> (thanks to M. Landa,
+FCE CTU in Prague)</li>
+<li style="margin: 10px">maintained by community and developers</li>
+</ul>
+</div>
+
+<img src="img/grass_gis_logo.svg" class="stretch">
+
+</section>
+
+<section>
+<h3>Why GRASS GIS?</h3>
+<p style="text-align: left">For model users:
+<ul style="margin-top:1em">
+<li style="margin: 10px">multiplatform</li>
+<li style="margin: 10px">graphical user interface</li>
+<li style="margin: 10px">scriptable (Bash, Python, R)</li>
+<li style="margin: 10px">easy installation from GUI or command line:
+    <pre><code data-trim data-noescape>
+         > g.extension r.futures
+   </code></pre></li>
+   <li style="margin: 10px">
+available suite of tools for further analyses and visualization
+    (spatio-temporal analyses, animations)</li>
+</ul>
+
+<img src="img/FUTURES_animation_tool.gif" class="stretch">
+
+</section>
+
+
+<section>
+<h3>r.futures</h3>
+<img src="img/grass_futures_diagram.png">
+</section>
+
+
+<section>
+<h3>GUI</h3>
+<em>Graphical User Interface</em>
+<img src="img/GUI.gif">
+</section>
+
+
+<section>
+<h3>CLI</h3>
+<em>Command Line Interface</em>
+<pre><code data-trim data-noescape>
+r.futures.pga -s subregions=counties developed=urban_2011 \
+   output=final demand=demand.csv discount_factor=0.1 compactness_mean=0.1 \
+   predictors=road_dens_perc,forest_smooth_perc,dist_to_water_km,dist_to_protected_km \
+   devpot_params=potential.csv development_pressure=devpressure_0_5 \
+   n_dev_neighbourhood=30 gamma=0.5 patch_sizes=patches.txt num_neighbors=4 output=final
+ </code></pre>
+</section>
+
+
+<section>
+<h3>TUI</h3>
+<em>Tangible User Interface</em>
+<img src="img/TUI.jpg">
+</section>
+
+
+<section>
+<iframe class="stretch" src="https://www.youtube.com/embed/SeBoGwSqmRM?rel=0" frameborder="0" allowfullscreen></iframe>
+</section>
+
+
+<section class="textimg">
+<h2>Getting Started: Import Data Into GRASS GIS</h2>
+<ul>
+<li>
+</ul>
+<img src="img/PGA.gif">
+</section>
+
+
+<section class="textimg">
+<h2>Getting Started: Calibrate</h2>
+<ul>
+<li>
+</ul>
+<img src="img/PGA.gif">
+</section>
+
+
+<section>
+<h3>Tutorials</h3>
+
+<ul>
+<li><a href="https://grasswiki.osgeo.org/wiki/FUTURES_tutorial">
+    Tutorial</a> for Triangle (Raleigh, Durham, Chapel Hill) on GRASS GIS Wiki</li>
+    <ul>
+        <li><a href="http://fatra.cnr.ncsu.edu/futures/FUTURES_triangle.zip">Sample dataset</a> for Triangle</li>
+    </ul>
+<li><a href="https://grasswiki.osgeo.org/wiki/Workshop_on_urban_growth_modeling_with_FUTURES">
+    Workshop material</a> for Asheville, NC on GRASS GIS Wiki</li>
+
+<li><a href="https://grass.osgeo.org/grass74/manuals/addons/r.futures.html">r.futures manual pages</a></li>
+</ul>
+
+</section>
+
+
+<section>
+<h3>References</h3>
+<ul style="font-size:70%">
+<li style="margin: 20px">Meentemeyer, R. K., Tang, W., Dorning, M. A., Vogler, J. B.,
+Cunniffe, N. J. and Shoemaker, D. A., 2013. <em><a>FUTURES: Multilevel
+Simulations of Emerging UrbanRural Landscape Structure
+Using a Stochastic Patch-Growing Algorithm</a></em>. Annals of the Association
+of American Geographers 103(4), pp. 785–807.</li>
+<li style="margin: 20px">Dorning, M. A., Koch, J., Shoemaker, D. A. and Meentemeyer,
+R. K., 2015. <em><a>Simulating urbanization scenarios reveals tradeoffs
+between conservation planning strategies</a></em>. Landscape and Urban
+Planning 136, pp. 28–39.</li>
+<li style="margin: 20px">Pickard, B. R., Van Berkel, D., Petrasova, A. and Meentemeyer,
+R. K., in prep. <em><a>Future patterns of urbanization reveal trade-offs
+among ecosystem services</a></em>.</li>
+<li style="margin: 20px">Petrasova, A., Petras, V., Van Berkel, D., Harmon, B. A., Mitasova, H., and Meentemeyer, R. K., 2016.
+     <em><a>Open Source Approach to Urban Growth Simulation</a></em>.
+     Int. Arch. Photogramm. Remote Sens. Spatial Inf. Sci., XLI-B7, 953-959.
+</ul>
+</section>
+
+
+<section>
+    <img src="img/cool_futures.png" alt="FUTURES visualization with gray background" class="stretch">
+    <p>
+        <!--
+        <a href="https://github.com/ncsu-landscape-dynamics/PoPS/blob/master/README.md">github.com/ncsu-landscape-dynamics/PoPS</a>
+        <br>
+        -->
+        <a href="https://ncsu-landscape-dynamics.github.io/futures-talk/ncgis2019.html">Slides: ncsu-landscape-dynamics.github.io/futures-talk</a>
+    <p>
+        <a href="https://geospatial.ncsu.edu/engage/">Official collaboration: geospatial.ncsu.edu/engage</a>
+    <p>
+        <a href="https://twitter.com/vaclavpetras/">Twitter: vaclavpetras</a>
+        <br>
+        <a href="https://github.com/wenzeslaus/">GitHub: wenzeslaus</a>
+        <br>
+        <a href="https://gitlab.com/vpetras/">GitLab: vpetras</a>
     </p>
 </section>
 
@@ -139,9 +453,9 @@
 
                 // Display a presentation progress bar
                 progress: true,
-                
+
                 center: true,
-                
+
                 // Display the page number of the current slide
                 slideNumber: false,
 
@@ -156,7 +470,7 @@
                 // specified using percentage units.
                 // width: 960,
                 // height: 700,
-                
+
                 // Factor of the display size that should remain empty around the content
                 margin: 0.05,  // increase?
 
@@ -215,7 +529,7 @@
 
                 // Parallax background size
                 //parallaxBackgroundSize: '' // CSS syntax, e.g. "2100px 900px"
-                chalkboard: { 
+                chalkboard: {
         		// optionally load pre-recorded chalkboard drawing from file
             		src: "chalkboard.json",
             	},
