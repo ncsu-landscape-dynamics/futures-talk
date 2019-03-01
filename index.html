@@ -117,6 +117,7 @@
             <li>to suburbs or city centers
             <li>&hellip;
         </ul>
+    <li>Assessing impact of these changes before they happen
 </ul>
 <img src="img/city.jpg" class="stretch">
 </section>
@@ -269,6 +270,8 @@ derived from historical data</li>
 </p>
 
 <img src="img/open_science_logo_CC_BY-SA_Greg_Emmerich.gif" class="stretch">
+<br>
+<small>Open science</small>
 <p class="credit">
     Image credit:
     <a href="https://www.flickr.com/photos/gemmerich/8732559382/in/photostream/">Open Science Logo v2</a>,
@@ -353,10 +356,10 @@ authors cannot support it for lack of funding for example.
 
 <section>
 <h3>r.futures</h3>
-<em>Schema of the set of modules implementing FUTURES</em>
+<em>Information flow diagram for the set of modules implementing FUTURES</em>
 <img src="img/grass_futures_diagram.png">
 <p><small>
-
+Additionally, <em>r.futures.parallelpga</em> can be used instead of <em>r.futures.pga</em>.
 </small></p>
 </section>
 
@@ -393,42 +396,84 @@ r.futures.pga -s subregions=counties developed=urban_2011 \
 </section>
 
 
-<section class="textimg">
-<h2>Getting Started: Unify and Import Data Into GRASS GIS</h2>
+<section>
+<h3>Getting Started: Data</h3>
 <ul>
-<li>
+    <li>Import or link data into a GRASS GIS Spatial Database
+        <ul>
+            <li>Includes reprojection into the same SRS
+        </ul>
+    <li>Unify resolutions and extents <small>(<em>g.region, r.resamp.stats, &hellip;</em>)</small>
 </ul>
-<img src="img/landscape.png">
+<br>
+<img src="img/landscape.png" class="stretch">
+<p style="margin-top: 0px; padding-top: 0px;"><small>Landuse classes draped over topography (3D view in GRASS GIS)</small></p>
 </section>
 
 
-<section class="textimg">
-<h2>Getting Started: Calibrate</h2>
+<section>
+<h3>Getting Started: Calibration</h3>
 <ul>
-<li>
+    <li>Potential submodel <small>[calibrated using difference between two years in the past]</small>
+        <ul>
+            <li>Predictors <small>(distance to water, slope, travel time to city center, &hellip;)</small>
+            <li>Development pressure <small>(Dynamically modified during the simulation)</small>
+        </ul>
+    <li>Patch calibration <small>[calibrated using difference between two years in the past]</small>
+        <ul>
+            <li>Size and shape of patches of new development
+        </ul>
+    <li>Demand submodel <small>[calibrated using all available past years]</small>
+        <ul>
+            <li>Equation to relate new development and population growth (past and projected)
+        </ul>
 </ul>
-<img src="img/PGA.gif">
+<br>
+<img src="img/r_grow_distance_from_forest_edge.png" class="stretch">
+<br>
+<small>Distance to forest edge computed using <em>r.grow.distance</em></small>
+</section>
+
+
+<section>
+<h3>Getting Started: Scenarios</h3>
+<ul>
+    <li><em>stimulus</em> is spatially variable increase potential for development <small>(e.g. zoning)</small>
+    <li><em>constrain_weight</em> is spatially variable limits to development <small>(e.g. city park)</small>
+    <li><em>incentive_power</em> influences infill and sprawl <small>(e.g. government policy)</small>
+    <li>change inputs for predictors <small>(e.g. new road)</small> and population growth
+</ul>
+<br>
+<img src="img/scenarios_incentive_table.png" class="stretch">
+left: infill, middle: status quo, right: sprawl
 </section>
 
 
 <section>
 <h3>References</h3>
 <ul style="font-size:70%">
-<li>Meentemeyer, R. K., Tang, W., Dorning, M. A., Vogler, J. B.,
-Cunniffe, N. J. and Shoemaker, D. A., 2013. <em><a>FUTURES: Multilevel
-Simulations of Emerging UrbanRural Landscape Structure
-Using a Stochastic Patch-Growing Algorithm</a></em>. Annals of the Association
-of American Geographers 103(4), pp. 785–807.</li>
-<li>Dorning, M. A., Koch, J., Shoemaker, D. A. and Meentemeyer,
-R. K., 2015. <em><a>Simulating urbanization scenarios reveals tradeoffs
-between conservation planning strategies</a></em>. Landscape and Urban
-Planning 136, pp. 28–39.</li>
-<li>Pickard, B. R., Van Berkel, D., Petrasova, A. and Meentemeyer,
-R. K., 2017. <em><a>Future patterns of urbanization reveal trade-offs
-among ecosystem services</a></em>. Landscape Ecology Volume 32, Issue 3, pp 617-634</li>
-<li>Petrasova, A., Petras, V., Van Berkel, D., Harmon, B. A., Mitasova, H., and Meentemeyer, R. K., 2016.
-     <em><a>Open Source Approach to Urban Growth Simulation</a></em>.
-     Int. Arch. Photogramm. Remote Sens. Spatial Inf. Sci., XLI-B7, 953-959.
+<li>
+    Meentemeyer, R. K., Tang, W., Dorning, M. A., Vogler, J. B.,
+    Cunniffe, N. J. and Shoemaker, D. A., 2013.
+    <em><a href="https://doi.org/10.1080/00045608.2012.707591">FUTURES: Multilevel
+    Simulations of Emerging UrbanRural Landscape Structure
+    Using a Stochastic Patch-Growing Algorithm</a></em>. Annals of the Association
+    of American Geographers 103(4), pp. 785–807.</li>
+<li>
+    Dorning, M. A., Koch, J., Shoemaker, D. A. and Meentemeyer,
+    R. K., 2015.
+    <em><a href="https://doi.org/10.1016/j.landurbplan.2014.11.011">Simulating urbanization scenarios reveals tradeoffs
+    between conservation planning strategies</a></em>. Landscape and Urban
+    Planning 136, pp. 28–39.</li>
+<li>
+    Pickard, B. R., Van Berkel, D., Petrasova, A. and Meentemeyer,
+    R. K., 2017.
+    <em><a href="https://doi.org/10.1007/s10980-016-0465-8">Future patterns of urbanization reveal trade-offs
+    among ecosystem services</a></em>. Landscape Ecology Volume 32, Issue 3, pp 617-634</li>
+<li>
+    Petrasova, A., Petras, V., Van Berkel, D., Harmon, B. A., Mitasova, H., and Meentemeyer, R. K., 2016.
+    <em><a href="https://doi.org/10.5194/isprsarchives-XLI-B7-953-2016">Open Source Approach to Urban Growth Simulation</a></em>.
+    Int. Arch. Photogramm. Remote Sens. Spatial Inf. Sci., XLI-B7, 953-959.
 </ul>
 <p>
 If you can't get to any of these, we can send them to you!
@@ -476,9 +521,9 @@ Contact service center at the <a href="https://geospatial.ncsu.edu/engage/servic
 <br>
 <img src="img/r_futures.png" class="stretch">
 <p><small>
-Pickard, Brian, Joshua Gray, and Ross Meentemeyer.
-<a href="https://www.mdpi.com/2073-445X/6/3/52">"Comparing quantity, allocation and configuration accuracy of multiple land change models."</a>
-Land 6.3 (2017): 52.
+Pickard, B., Gray, J., and Meentemeyer, R.K., 2017.
+<em><a href="https://www.mdpi.com/2073-445X/6/3/52">Comparing quantity, allocation and configuration accuracy of multiple land change models.</a></em>
+Land 6.3: 52.
 </small></p>
 <aside class="notes">
 FUTURES stands out because it can model realistic spatial patterns,
