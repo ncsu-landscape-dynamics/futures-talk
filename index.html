@@ -110,17 +110,25 @@
 
 <section>
 <h3>Motivation</h3>
-
+<ul>
+    <li>Long-term planning as people are moving
+        <ul>
+            <li>to a from coast
+            <li>to suburbs or city centers
+            <li>&hellip;
+        </ul>
+</ul>
+<img src="img/city.jpg" class="stretch">
 </section>
 
 
 <section>
 <h3>No Room for a Black Box</h3>
 Can we understand the behavior of the model?
-<br/>
+<br>
 Can we make sure it is working as described?
 <p>
-<img width="90%" src="img/blackbox.png">
+<img class="stretch" src="img/blackbox.png">
 
 <aside class="notes">
 There are numerous challenges for the urban growth and land change models,
@@ -135,20 +143,22 @@ cannot be adjusted when applied to different study system.
 </section>
 
 
-<section class="textimg">
+<section>
 <h2>FUTURES</h2>
-<div style="max-width: 65% !important;">
 <p><strong>FUT</strong>ure <strong>U</strong>rban-<strong>R</strong>egional
      <strong>E</strong>nvironment <strong>S</strong>imulation<br> (Meentemeyer et al., 2013)</p>
+<div class="left">
 <ul>
-<li>stochastic, patch-based urban growth model</li>
+<li>urban growth model</li>
+<li>patch-based</li>
+<li>stochastic</li>
 <li>accounts for location, quantity, and pattern of change</li>
 <li>positive feedbacks (new development attracts more development)</li>
 <li>allows spatial non-stationarity</li>
 </ul>
 </div>
 
-<img style="margin-top:3em;max-width: 33% !important;" width="90%" src="img/PGA.gif">
+<img src="img/cool_futures.png"  class="right">
 <aside class="notes">
     FUTURES, an urban growth model
     developed originally by Meentemeyer et al.
@@ -158,26 +168,19 @@ cannot be adjusted when applied to different study system.
 </section>
 
 
-<section class="textimg">
-<h2>FUTURES highlights</h2>
-<ul style="max-width:31% !important">
-<li style="margin: 20px">realistic spatial pattern</li>
-<li style="margin: 20px">modular</li>
-<li style="margin: 20px">transparent (open source)</li>
-<li style="margin: 20px">available (open source including its dependencies)</li>
-</ul>
-<img style="max-width:60% !important" src="img/schema.png">
-
-<aside class="notes">
-FUTURES stands out because it can model realistic spatial patterns,
-is modular and makes the modeling transparent thanks
-to its new open source implementation.
-</aside>
+<section>
+<h2>FUTURES, A Simplified View</h2>
+<em>turning green cells into orange cells</em>
+<br>
+<img src="img/r_futures_detail.png">
+<p><small>
+-1: undeveloped, 0: initial development, 1: developed in the first year, &hellip;
+</small></p>
 </section>
 
 
 <section>
-<h2>FUTURES</h2>
+<h2>Modeling framework</h2>
 <img style="margin-top:2em;margin-left:5em; max-width: 58% !important;"
  src="img/FUTURES_schema.png">
 <aside class="notes">
@@ -191,18 +194,21 @@ is the actual engine of FUTURES, growing the patches of calibrated size and shap
 
 
 <section>
-<h2>POTENTIAL</h2>
+<h2>Potential Submodel</h2>
 <ul>
 <li>multilevel logistic regression for development suitability
 accounts for variation among subregions (for example policies
 in different counties)</li>
 <li>inputs are uncorrelated predictors (distance to roads and development, slope, ...)</li>
 </ul>
+<br>
+<img src="img/r_futures_potsurface.png" class="stretch">
+<p>surface: potential, orange: developed areas, green: undeveloped areas
 </section>
 
 
 <section class="textimg">
-<h2>DEMAND</h2>
+<h2>Demand Submodel</h2>
 <ul>
 <li>estimates the rate of per capita land consumption for
 each subregion</li>
@@ -214,7 +220,7 @@ each subregion</li>
 
 
 <section class="textimg">
-<h2>PGA</h2>
+<h2>Patch Growing Algorithm (PGA)</h2>
 <ul>
 <li>stochastic algorithm</li>
 <li>converts land in discrete patches</li>
@@ -226,15 +232,40 @@ derived from historical data</li>
 
 
 <section>
-<h2>Open source FUTURES</h2>
-<p style="text-align: left">To go beyond experimental prototype we needed to make FUTURES:
-<ul style="margin-top:1em">
-<li>more efficient and scalable</li>
-<li>as easy to use as possible for a wider audience</li>
-<li>open source and maintainable in the long run</li>
+<h2>FUTURES Prototype</h2>
+<ul>
+    <li>Private/proprietary
+    <li>Only the core of the model formalized in code
+    <li>Poorly documented code with many hardcoded constants
+    <li>User interface: configuration file and C code editing
 </ul>
-<p>&#8658; new FUTURES GRASS GIS add-on
-     <a href="https://grass.osgeo.org/grass70/manuals/addons/r.futures.html">r.futures</a>
+<img src="img/futures_code_constants.png" class="stretch">
+<br>
+<em>The original paper went through the classic peer-review process and was published in a scientific journal.</em>
+</section>
+
+
+<section>
+<h2>FUTURES Prototype</h2>
+<ul>
+    <li>Calibration data, tools and documentation distributed in a password-protected ZIP files by email.
+</ul>
+<img src="img/zip_with_password.png" class="stretch">
+</section>
+
+
+<section>
+<h2>Open Source FUTURES</h2>
+<ul>
+    <li>To pay the technical debt and to go beyond experimental prototype we needed to make FUTURES:
+        <ul>
+            <li>more efficient and scalable</li>
+            <li>as easy to use as possible for a wider audience</li>
+            <li>open source, integrated into a larger modeling project, and maintainable in the long run</li>
+        </ul>
+</ul>
+<p>&#8658; new FUTURES GRASS GIS add-on:
+     a set of modules called <a href="https://grass.osgeo.org/grass76/manuals/addons/r.futures.html">r.futures</a>
 </p>
 
 <img src="img/open_science_logo_CC_BY-SA_Greg_Emmerich.gif" class="stretch">
@@ -265,17 +296,18 @@ authors cannot support it for lack of funding for example.
 <section>
 <h3>Why GRASS GIS?</h3>
 <div>
-<p style="text-align: left">For model developers:
 <ul>
-<li style="margin: 10px">modular architecture: modules in C/C++ and Python</li>
-<li style="margin: 10px">all needed GIS functions at hand</li>
-<li style="margin: 10px">efficient I/O libraries</li>
-<li style="margin: 10px">able to process large datasets</li>
-<li style="margin: 10px">automatically generated CLI and GUI</li>
-<li style="margin: 10px">infrastructure for online manual pages</li>
-<li style="margin: 10px">daily compiled binaries for Windows<br/> (thanks to M. Landa,
-FCE CTU in Prague)</li>
-<li style="margin: 10px">maintained by community and developers</li>
+    <li>Advantages for model developers <small>(and all tool/plugin developers)</small>:
+        <ul>
+            <li>modular architecture: modules in C, C++, and Python</li>
+            <li>all needed GIS functions at hand</li>
+            <li>efficient I/O libraries <small>(several further improvements in GRASS GIS since the decision was made)</small></li>
+            <li>ability to process large datasets</li>
+            <li>automatically generated CLI and GUI</li>
+            <li>infrastructure for online manual pages</li>
+            <li>daily compiled binaries from C/C++ for Windows<small>(thanks to M. Landa, FCE CTU in Prague)</small></li>
+            <li>code in common add-on repository partially maintained by community and core developers</li>
+        </ul>
 </ul>
 </div>
 
@@ -285,28 +317,47 @@ FCE CTU in Prague)</li>
 
 <section>
 <h3>Why GRASS GIS?</h3>
-<p style="text-align: left">For model users:
-<ul style="margin-top:1em">
-<li style="margin: 10px">multiplatform</li>
-<li style="margin: 10px">graphical user interface</li>
-<li style="margin: 10px">scriptable (Bash, Python, R)</li>
-<li style="margin: 10px">easy installation from GUI or command line:
-    <pre><code data-trim data-noescape>
-         > g.extension r.futures
-   </code></pre></li>
-   <li style="margin: 10px">
-available suite of tools for further analyses and visualization
-    (spatio-temporal analyses, animations)</li>
+<ul>
+    <li>Advantages for model users:
+        <ul>
+            <li>multiplatform</li>
+            <li>graphical user interface</li>
+            <li>scriptable (Bash, Python, R, &hellip;)</li>
+            <li>easy installation from GUI or command line: <code>g.extension r.futures</code>
+            <li>more tools available for further analysis and visualization</li>
+        </ul>
 </ul>
 
+<br>
+<img src="img/grass_gis_logo.svg" class="stretch">
+
+</section>
+
+
+<section>
+<h3>Why GRASS GIS?</h3>
+<ul>
+    <li>Advantages for model users:
+        <ul>
+            <li>spatio-temporal analysis and visualization
+        </ul>
+</ul>
+
+<br>
 <img src="img/FUTURES_animation_tool.gif" class="stretch">
+
+<p>Example: Animation tool</p>
 
 </section>
 
 
 <section>
 <h3>r.futures</h3>
+<em>Schema of the set of modules implementing FUTURES</em>
 <img src="img/grass_futures_diagram.png">
+<p><small>
+
+</small></p>
 </section>
 
 
@@ -343,11 +394,11 @@ r.futures.pga -s subregions=counties developed=urban_2011 \
 
 
 <section class="textimg">
-<h2>Getting Started: Import Data Into GRASS GIS</h2>
+<h2>Getting Started: Unify and Import Data Into GRASS GIS</h2>
 <ul>
 <li>
 </ul>
-<img src="img/PGA.gif">
+<img src="img/landscape.png">
 </section>
 
 
@@ -357,6 +408,30 @@ r.futures.pga -s subregions=counties developed=urban_2011 \
 <li>
 </ul>
 <img src="img/PGA.gif">
+</section>
+
+
+<section>
+<h3>References</h3>
+<ul style="font-size:70%">
+<li>Meentemeyer, R. K., Tang, W., Dorning, M. A., Vogler, J. B.,
+Cunniffe, N. J. and Shoemaker, D. A., 2013. <em><a>FUTURES: Multilevel
+Simulations of Emerging UrbanRural Landscape Structure
+Using a Stochastic Patch-Growing Algorithm</a></em>. Annals of the Association
+of American Geographers 103(4), pp. 785–807.</li>
+<li>Dorning, M. A., Koch, J., Shoemaker, D. A. and Meentemeyer,
+R. K., 2015. <em><a>Simulating urbanization scenarios reveals tradeoffs
+between conservation planning strategies</a></em>. Landscape and Urban
+Planning 136, pp. 28–39.</li>
+<li>Pickard, B. R., Van Berkel, D., Petrasova, A. and Meentemeyer,
+R. K., 2017. <em><a>Future patterns of urbanization reveal trade-offs
+among ecosystem services</a></em>. Landscape Ecology Volume 32, Issue 3, pp 617-634</li>
+<li>Petrasova, A., Petras, V., Van Berkel, D., Harmon, B. A., Mitasova, H., and Meentemeyer, R. K., 2016.
+     <em><a>Open Source Approach to Urban Growth Simulation</a></em>.
+     Int. Arch. Photogramm. Remote Sens. Spatial Inf. Sci., XLI-B7, 953-959.
+</ul>
+<p>
+If you can't get to any of these, we can send them to you!
 </section>
 
 
@@ -372,31 +447,44 @@ r.futures.pga -s subregions=counties developed=urban_2011 \
 <li><a href="https://grasswiki.osgeo.org/wiki/Workshop_on_urban_growth_modeling_with_FUTURES">
     Workshop material</a> for Asheville, NC on GRASS GIS Wiki</li>
 
-<li><a href="https://grass.osgeo.org/grass74/manuals/addons/r.futures.html">r.futures manual pages</a></li>
+<li><a href="https://grass.osgeo.org/grass74/manuals/addons/r.futures.html">r.futures documentation</a></li>
 </ul>
-
+<img src="img/tutorial_3d.png" class="stretch">
 </section>
 
 
 <section>
-<h3>References</h3>
-<ul style="font-size:70%">
-<li style="margin: 20px">Meentemeyer, R. K., Tang, W., Dorning, M. A., Vogler, J. B.,
-Cunniffe, N. J. and Shoemaker, D. A., 2013. <em><a>FUTURES: Multilevel
-Simulations of Emerging UrbanRural Landscape Structure
-Using a Stochastic Patch-Growing Algorithm</a></em>. Annals of the Association
-of American Geographers 103(4), pp. 785–807.</li>
-<li style="margin: 20px">Dorning, M. A., Koch, J., Shoemaker, D. A. and Meentemeyer,
-R. K., 2015. <em><a>Simulating urbanization scenarios reveals tradeoffs
-between conservation planning strategies</a></em>. Landscape and Urban
-Planning 136, pp. 28–39.</li>
-<li style="margin: 20px">Pickard, B. R., Van Berkel, D., Petrasova, A. and Meentemeyer,
-R. K., in prep. <em><a>Future patterns of urbanization reveal trade-offs
-among ecosystem services</a></em>.</li>
-<li style="margin: 20px">Petrasova, A., Petras, V., Van Berkel, D., Harmon, B. A., Mitasova, H., and Meentemeyer, R. K., 2016.
-     <em><a>Open Source Approach to Urban Growth Simulation</a></em>.
-     Int. Arch. Photogramm. Remote Sens. Spatial Inf. Sci., XLI-B7, 953-959.
+<h3>Support</h3>
+<p>
+In case the tutorials are not enough:
+<br>
+Contact service center at the <a href="https://geospatial.ncsu.edu/engage/service-center/">Center for Geospatial Analytics, NC State University</a>
+</p>
+<img src="img/ncstate.png" style="width: 30%;">
+</section>
+
+
+<section>
+<h2>Highlights</h2>
+<ul>
+    <li>realistic spatial pattern <small>[Pickard 2017]</small>
+    <li>modular <small>(different submodels and data can be plugged in)</small>
+    <li>transparent <small>(open source)</small>
+    <li>integrated with analytical tools <small>(in GRASS GIS)</small>
+    <li>available <small>(open source including its dependencies)</small>
 </ul>
+<br>
+<img src="img/r_futures.png" class="stretch">
+<p><small>
+Pickard, Brian, Joshua Gray, and Ross Meentemeyer.
+<a href="https://www.mdpi.com/2073-445X/6/3/52">"Comparing quantity, allocation and configuration accuracy of multiple land change models."</a>
+Land 6.3 (2017): 52.
+</small></p>
+<aside class="notes">
+FUTURES stands out because it can model realistic spatial patterns,
+is modular and makes the modeling transparent thanks
+to its new open source implementation.
+</aside>
 </section>
 
 
@@ -436,7 +524,7 @@ among ecosystem services</a></em>.</li>
     -->
     <div class="parent-page">
         <!-- alternative symbol: &#x1f3e0; -->
-        <a href=".." title="Course website">
+        <a href="https://github.com/ncsu-landscape-dynamics" title="NCSU Landscape Dynamics Lab GitHub">
             <img width="15px" src="img/home.svg"></a>
     </div>
 
