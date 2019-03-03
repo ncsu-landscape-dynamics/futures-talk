@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>Creating Urbanization Scenarios with the FUTURES Model</title>
+
+        <meta name="description" content="FUTURES talk for NCGIS 2019">
+        <meta name="author" content="Vaclav Petras">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <link rel="shortcut icon" href="../img/favicon.png" />
+
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/ncsu-geoforall-lab.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+        <!-- For chalkboard plugin -->
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+
+        <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+
+        <style>
+            body {
+                background-image: url("../img/header.svg");
+                background-repeat: repeat-x;
+                background-position: left bottom;
+                background-size: auto 10%;
+            }
+
+            .glow {
+                text-shadow: 0 0 20px white, 0 0 18px white, 0 0 16px white, 0 0 14px white, 0 0 12px white, 0 0 10px white, 0 0 8px white, 0 0 6px white;
+            }
+
+            .reveal .box-glow {
+                box-shadow: 0px 0px 15px 0px white, 0px 0px 10px 0px white, 0px 0px 5px 0px white;
+            }
+
+            /*
+            table {
+                margin: 10px;
+                border-collapse: separate;
+                border: none;
+            }
+
+            td {
+                display: inline-block;
+                border-radius: 5px;
+                background-color: #369;
+                color: green;
+                border: 5px solid red;
+            }*/
+
+            .reveal .row-based td {
+                border: none;
+            }
+
+            .row-based tr td:first-of-type {
+                font-weight: bold;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+
+
+<section>
+<h2>Creating Urbanization Scenarios with the FUTURES Model</h2>
+    <h3 style="margin-top: 0.5em">
+        Vaclav (Vashek) Petras, Anna Petrasova, Georgina&nbsp;M.&nbsp;Sanchez, Derek Van Berkel &amp; Ross&nbsp;K.&nbsp;Meentemeyer</h3>
+    <p class="title-foot">
+        <a href="http://geospatial.ncsu.edu/geoforall/" title="NCSU GeoForAll Lab">NCSU GeoForAll Lab</a>
+        and
+        <a href="https://geospatial.ncsu.edu/landscapedynamics/" title="NCSU Landscape Dynamics Group">Landscape Dynamics Group</a>
+        <br>
+        at the
+        <a href="http://geospatial.ncsu.edu/" title="Center for Geospatial Analytics">Center for Geospatial Analytics</a>,
+        <br>
+        <a href="http://www.ncsu.edu/" title="North Carolina State University">North Carolina State University</a>
+    </p>
+    <p>
+        NCGIS 2019 Winston-Salem<br>
+        Feb 27 - Mar 1, 2019
+    </p>
+</section>
+
+
+<section>
+<h3>Motivation</h3>
+<ul>
+    <li>Long-term planning as people are moving
+        <ul>
+            <li>to a from coast
+            <li>to suburbs or city centers
+            <li>&hellip;
+        </ul>
+    <li>Assessing impact of these changes before they happen
+</ul>
+<img src="img/city.jpg" class="stretch">
+</section>
+
+
+<section>
+<h3>No Room for a Black Box</h3>
+Can we understand the behavior of the model?
+<br>
+Can we make sure it is working as described?
+<p>
+<img class="stretch" src="img/blackbox.png">
+
+<aside class="notes">
+There are numerous challenges for the urban growth and land change models,
+one of them is that the algorithms are often black boxes.
+Black box here means that the model provides little explanatory
+insight into the influence of the independent variables
+in the prediction process.
+Also many published models do not provide their software implementation,
+so all possible problems are hidden and the models algorithms
+cannot be adjusted when applied to different study system.
+</aside>
+</section>
+
+
+<section>
+<h2>FUTURES</h2>
+<p><strong>FUT</strong>ure <strong>U</strong>rban-<strong>R</strong>egional
+     <strong>E</strong>nvironment <strong>S</strong>imulation<br> (Meentemeyer et al., 2013)</p>
+<div class="left">
+<ul>
+<li>urban growth model</li>
+<li>patch-based</li>
+<li>stochastic</li>
+<li>accounts for location, quantity, and pattern of change</li>
+<li>positive feedbacks (new development attracts more development)</li>
+<li>allows spatial non-stationarity</li>
+</ul>
+</div>
+
+<img src="img/cool_futures.png"  class="right">
+<aside class="notes">
+    FUTURES, an urban growth model
+    developed originally by Meentemeyer et al.
+    FUTURES is a stochastic model, where new development occurs in discrete patches,
+    it accounts for ...
+</aside>
+</section>
+
+
+<section>
+<h2>FUTURES, A Simplified View</h2>
+<em>turning green cells into orange cells</em>
+<br>
+<img src="img/r_futures_detail.png">
+<p><small>
+-1: undeveloped, 0: initial development, 1: developed in the first year, &hellip;
+</small></p>
+</section>
+
+
+<section>
+<h2>Modeling framework</h2>
+<img style="margin-top:2em;margin-left:5em; max-width: 58% !important;"
+ src="img/FUTURES_schema.png">
+<aside class="notes">
+This is a basic schema of FUTURES, where the modeling framework is
+based on 3 components: POTENTIAL submodel providing the information
+where will urbanization likely happen, the DEMAND specifies how much
+land will be developed and the third component PGA (meaning Patch Growing Algorithm)
+is the actual engine of FUTURES, growing the patches of calibrated size and shape.
+</aside>
+</section>
+
+
+<section>
+<h2>Potential Submodel</h2>
+<ul>
+<li>multilevel logistic regression for development suitability
+accounts for variation among subregions (for example policies
+in different counties)</li>
+<li>inputs are uncorrelated predictors (distance to roads and development, slope, ...)</li>
+</ul>
+<br>
+<img src="img/r_futures_potsurface.png" class="stretch">
+<p>surface: potential, orange: developed areas, green: undeveloped areas
+</section>
+
+
+<section class="textimg">
+<h2>Demand Submodel</h2>
+<ul>
+<li>estimates the rate of per capita land consumption for
+each subregion</li>
+<li>extrapolates between historical changes in population and land conversion</li>
+<li>inputs are historical landuse, population data, population projection</li>
+</ul>
+<img src="img/r_futures_demand_plot_logarithmic.png">
+</section>
+
+
+<section class="textimg">
+<h2>Patch Growing Algorithm (PGA)</h2>
+<ul>
+<li>stochastic algorithm</li>
+<li>converts land in discrete patches</li>
+<li>inputs are patch characteristics (distribution of patch sizes and compactness)
+derived from historical data</li>
+</ul>
+<img src="img/PGA.gif">
+</section>
+
+
+<section>
+<h2>FUTURES Prototype</h2>
+<ul>
+    <li>Private/proprietary
+    <li>Only the core of the model formalized in code
+    <li>Poorly documented code with many hardcoded constants
+    <li>User interface: configuration file and C code editing
+</ul>
+<img src="img/futures_code_constants.png" class="stretch">
+<br>
+<em>The original paper went through the classic peer-review process and was published in a scientific journal.</em>
+</section>
+
+
+<section>
+<h2>FUTURES Prototype</h2>
+<ul>
+    <li>Calibration data, tools and documentation distributed in a password-protected ZIP files by email.
+</ul>
+<img src="img/zip_with_password.png" class="stretch">
+</section>
+
+
+<section>
+<h2>Open Source FUTURES</h2>
+<ul>
+    <li>To pay the technical debt and to go beyond experimental prototype we needed to make FUTURES:
+        <ul>
+            <li>more efficient and scalable</li>
+            <li>as easy to use as possible for a wider audience</li>
+            <li>open source, integrated into a larger modeling project, and maintainable in the long run</li>
+        </ul>
+</ul>
+<p>&#8658; new FUTURES GRASS GIS add-on:
+     a set of modules called <a href="https://grass.osgeo.org/grass76/manuals/addons/r.futures.html">r.futures</a>
+</p>
+
+<img src="img/open_science_logo_CC_BY-SA_Greg_Emmerich.gif" class="stretch">
+<br>
+<small>Open science</small>
+<p class="credit">
+    Image credit:
+    <a href="https://www.flickr.com/photos/gemmerich/8732559382/in/photostream/">Open Science Logo v2</a>,
+    CC BY-SA 3.0 Greg Emmerich
+</p>
+
+<aside class="notes">
+The original implementation of FUTURES was a research prototype
+which couldn't be effectively shared with the land change community
+because it was difficult to run it and didn't scale very well.
+So we decided to go beyond this prototype. We made the model
+simpler to run so that all our colleagues and also wider audience
+can use it in their research without extensive training.
+With the goal to study large-scale urbanization in high detail
+we made the model more efficient and parallelized.
+We don't share just binaries but we made the model
+fully open source and implemented it in GRASS GIS, a stable, powerful
+geospatial platform to ensure the model is available and maintained
+and can be used by the community even if the original
+authors cannot support it for lack of funding for example.
+</aside>
+</section>
+
+
+<section>
+<h3>Why GRASS GIS?</h3>
+<div>
+<ul>
+    <li>Advantages for model developers <small>(and all tool/plugin developers)</small>:
+        <ul>
+            <li>modular architecture: modules in C, C++, and Python</li>
+            <li>all needed GIS functions at hand</li>
+            <li>efficient I/O libraries <small>(several further improvements in GRASS GIS since the decision was made)</small></li>
+            <li>ability to process large datasets</li>
+            <li>automatically generated CLI and GUI</li>
+            <li>infrastructure for online manual pages</li>
+            <li>daily compiled binaries from C/C++ for Windows<small>(thanks to M. Landa, FCE CTU in Prague)</small></li>
+            <li>code in common add-on repository partially maintained by community and core developers</li>
+        </ul>
+</ul>
+</div>
+
+<img src="img/grass_gis_logo.svg" class="stretch">
+
+</section>
+
+<section>
+<h3>Why GRASS GIS?</h3>
+<ul>
+    <li>Advantages for model users:
+        <ul>
+            <li>multiplatform</li>
+            <li>graphical user interface</li>
+            <li>scriptable (Bash, Python, R, &hellip;)</li>
+            <li>easy installation from GUI or command line: <code>g.extension r.futures</code>
+            <li>more tools available for further analysis and visualization</li>
+        </ul>
+</ul>
+
+<br>
+<img src="img/grass_gis_logo.svg" class="stretch">
+
+</section>
+
+
+<section>
+<h3>Why GRASS GIS?</h3>
+<ul>
+    <li>Advantages for model users:
+        <ul>
+            <li>spatio-temporal analysis and visualization
+        </ul>
+</ul>
+
+<br>
+<img src="img/FUTURES_animation_tool.gif" class="stretch">
+
+<p>Example: Animation tool</p>
+
+</section>
+
+
+<section>
+<h3>r.futures</h3>
+<em>Information flow diagram for the set of modules implementing FUTURES</em>
+<img src="img/grass_futures_diagram.png">
+<p><small>
+Additionally, <em>r.futures.parallelpga</em> can be used instead of <em>r.futures.pga</em>.
+</small></p>
+</section>
+
+
+<section>
+<h3>GUI</h3>
+<em>Graphical User Interface</em>
+<img src="img/GUI.gif">
+</section>
+
+
+<section>
+<h3>CLI</h3>
+<em>Command Line Interface</em>
+<pre><code data-trim data-noescape>
+r.futures.pga -s subregions=counties developed=urban_2011 \
+   output=final demand=demand.csv discount_factor=0.1 compactness_mean=0.1 \
+   predictors=road_dens_perc,forest_smooth_perc,dist_to_water_km,dist_to_protected_km \
+   devpot_params=potential.csv development_pressure=devpressure_0_5 \
+   n_dev_neighbourhood=30 gamma=0.5 patch_sizes=patches.txt num_neighbors=4 output=final
+ </code></pre>
+</section>
+
+
+<section>
+<h3>TUI</h3>
+<em>Tangible User Interface</em>
+<img src="img/TUI.jpg">
+</section>
+
+
+<section>
+<iframe class="stretch" src="https://www.youtube.com/embed/SeBoGwSqmRM?rel=0" frameborder="0" allowfullscreen></iframe>
+</section>
+
+
+<section>
+<h3>Getting Started: Data</h3>
+<ul>
+    <li>Import or link data into a GRASS GIS Spatial Database
+        <ul>
+            <li>Includes reprojection into the same SRS
+        </ul>
+    <li>Unify resolutions and extents <small>(<em>g.region, r.resamp.stats, &hellip;</em>)</small>
+</ul>
+<br>
+<img src="img/landscape.png" class="stretch">
+<p style="margin-top: 0px; padding-top: 0px;"><small>Landuse classes draped over topography (3D view in GRASS GIS)</small></p>
+</section>
+
+
+<section>
+<h3>Getting Started: Calibration</h3>
+<ul>
+    <li>Potential submodel <small>[calibrated using difference between two years in the past]</small>
+        <ul>
+            <li>Predictors <small>(distance to water, slope, travel time to city center, &hellip;)</small>
+            <li>Development pressure <small>(Dynamically modified during the simulation)</small>
+        </ul>
+    <li>Patch calibration <small>[calibrated using difference between two years in the past]</small>
+        <ul>
+            <li>Size and shape of patches of new development
+        </ul>
+    <li>Demand submodel <small>[calibrated using all available past years]</small>
+        <ul>
+            <li>Equation to relate new development and population growth (past and projected)
+        </ul>
+</ul>
+<br>
+<img src="img/r_grow_distance_from_forest_edge.png" class="stretch">
+<br>
+<small>Distance to forest edge computed using <em>r.grow.distance</em></small>
+</section>
+
+
+<section>
+<h3>Getting Started: Scenarios</h3>
+<ul>
+    <li><em>stimulus</em> is spatially variable increase potential for development <small>(e.g. zoning)</small>
+    <li><em>constrain_weight</em> is spatially variable limits to development <small>(e.g. city park)</small>
+    <li><em>incentive_power</em> influences infill and sprawl <small>(e.g. government policy)</small>
+    <li>change inputs for predictors <small>(e.g. new road)</small> and population growth
+</ul>
+<br>
+<img src="img/scenarios_incentive_table.png" class="stretch">
+left: infill, middle: status quo, right: sprawl
+</section>
+
+
+<section>
+<h3>References</h3>
+<ul style="font-size:70%">
+<li>
+    Meentemeyer, R. K., Tang, W., Dorning, M. A., Vogler, J. B.,
+    Cunniffe, N. J. and Shoemaker, D. A., 2013.
+    <em><a href="https://doi.org/10.1080/00045608.2012.707591">FUTURES: Multilevel
+    Simulations of Emerging UrbanRural Landscape Structure
+    Using a Stochastic Patch-Growing Algorithm</a></em>. Annals of the Association
+    of American Geographers 103(4), pp. 785–807.</li>
+<li>
+    Dorning, M. A., Koch, J., Shoemaker, D. A. and Meentemeyer,
+    R. K., 2015.
+    <em><a href="https://doi.org/10.1016/j.landurbplan.2014.11.011">Simulating urbanization scenarios reveals tradeoffs
+    between conservation planning strategies</a></em>. Landscape and Urban
+    Planning 136, pp. 28–39.</li>
+<li>
+    Pickard, B. R., Van Berkel, D., Petrasova, A. and Meentemeyer,
+    R. K., 2017.
+    <em><a href="https://doi.org/10.1007/s10980-016-0465-8">Future patterns of urbanization reveal trade-offs
+    among ecosystem services</a></em>. Landscape Ecology Volume 32, Issue 3, pp 617-634</li>
+<li>
+    Petrasova, A., Petras, V., Van Berkel, D., Harmon, B. A., Mitasova, H., and Meentemeyer, R. K., 2016.
+    <em><a href="https://doi.org/10.5194/isprsarchives-XLI-B7-953-2016">Open Source Approach to Urban Growth Simulation</a></em>.
+    Int. Arch. Photogramm. Remote Sens. Spatial Inf. Sci., XLI-B7, 953-959.
+</ul>
+<p>
+If you can't get to any of these, we can send them to you!
+</section>
+
+
+<section>
+<h3>Tutorials</h3>
+
+<ul>
+<li><a href="https://grasswiki.osgeo.org/wiki/FUTURES_tutorial">
+    Tutorial</a> for Triangle (Raleigh, Durham, Chapel Hill) on GRASS GIS Wiki</li>
+    <ul>
+        <li><a href="http://fatra.cnr.ncsu.edu/futures/FUTURES_triangle.zip">Sample dataset</a> for Triangle</li>
+    </ul>
+<li><a href="https://grasswiki.osgeo.org/wiki/Workshop_on_urban_growth_modeling_with_FUTURES">
+    Workshop material</a> for Asheville, NC on GRASS GIS Wiki</li>
+
+<li><a href="https://grass.osgeo.org/grass74/manuals/addons/r.futures.html">r.futures documentation</a></li>
+</ul>
+<img src="img/tutorial_3d.png" class="stretch">
+</section>
+
+
+<section>
+<h3>Support</h3>
+<p>
+In case the tutorials are not enough:
+<br>
+Contact service center at the <a href="https://geospatial.ncsu.edu/engage/service-center/">Center for Geospatial Analytics, NC State University</a>
+</p>
+<img src="img/ncstate.png" style="width: 30%;">
+</section>
+
+
+<section>
+<h2>Highlights</h2>
+<ul>
+    <li>realistic spatial pattern <small>[Pickard 2017]</small>
+    <li>modular <small>(different submodels and data can be plugged in)</small>
+    <li>transparent <small>(open source)</small>
+    <li>integrated with analytical tools <small>(in GRASS GIS)</small>
+    <li>available <small>(open source including its dependencies)</small>
+</ul>
+<br>
+<img src="img/r_futures.png" class="stretch">
+<p><small>
+Pickard, B., Gray, J., and Meentemeyer, R.K., 2017.
+<em><a href="https://www.mdpi.com/2073-445X/6/3/52">Comparing quantity, allocation and configuration accuracy of multiple land change models.</a></em>
+Land 6.3: 52.
+</small></p>
+<aside class="notes">
+FUTURES stands out because it can model realistic spatial patterns,
+is modular and makes the modeling transparent thanks
+to its new open source implementation.
+</aside>
+</section>
+
+
+<section>
+    <img src="img/cool_futures.png" alt="FUTURES visualization with gray background" class="stretch">
+    <p>
+        <!--
+        <a href="https://github.com/ncsu-landscape-dynamics/PoPS/blob/master/README.md">github.com/ncsu-landscape-dynamics/PoPS</a>
+        <br>
+        -->
+        <a href="https://ncsu-landscape-dynamics.github.io/futures-talk/ncgis2019.html">Slides: ncsu-landscape-dynamics.github.io/futures-talk</a>
+    <p>
+        <a href="https://geospatial.ncsu.edu/engage/">Official collaboration: geospatial.ncsu.edu/engage</a>
+    <p>
+        <a href="https://twitter.com/vaclavpetras/">Twitter: vaclavpetras</a>
+        <br>
+        <a href="https://github.com/wenzeslaus/">GitHub: wenzeslaus</a>
+        <br>
+        <a href="https://gitlab.com/vpetras/">GitLab: vpetras</a>
+    </p>
+</section>
+
+
+        </div>  <!-- slides -->
+
+    </div>  <!-- reveal -->
+
+    <!--<img class="timeline" id="line" />-->
+
+    <!--
+        Home button or link to a parent page
+        If you want this to be unique for every page (slide deck),
+        then remove it from here and put it at the end of each
+        file (or series of files) creating one page
+        (the position will be little different)
+        TODO: some JS is needed to move it to the right position
+    -->
+    <div class="parent-page">
+        <!-- alternative symbol: &#x1f3e0; -->
+        <a href="https://github.com/ncsu-landscape-dynamics" title="NCSU Landscape Dynamics Lab GitHub">
+            <img width="15px" src="img/home.svg"></a>
+    </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                // Display controls in the bottom right corner
+                controls: false,
+
+                // Display a presentation progress bar
+                progress: true,
+
+                center: true,
+
+                // Display the page number of the current slide
+                slideNumber: false,
+
+                // Enable the slide overview mode
+                overview: true,
+
+                // Turns fragments on and off globally
+                fragments: true,
+
+                // The "normal" size of the presentation, aspect ratio will be preserved
+                // when the presentation is scaled to fit different resolutions. Can be
+                // specified using percentage units.
+                // width: 960,
+                // height: 700,
+
+                // Factor of the display size that should remain empty around the content
+                margin: 0.05,  // increase?
+
+                // Bounds for smallest/largest possible scale to apply to content
+                minScale: 0.5,
+                maxScale: 5.0,
+
+                theme: Reveal.getQueryHash().theme,  // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'none', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Push each slide change to the browser history
+                history: true,
+                // Enable keyboard shortcuts for navigation
+                keyboard: true,
+
+                // Vertical centering of slides
+                center: true,
+
+                // Enables touch navigation on devices with touch input
+                touch: true,
+
+                // Loop the presentation
+                loop: false,
+                // Flags if the presentation is running in an embedded mode,
+                // i.e. contained within a limited portion of the screen
+                embedded: false,
+
+                // Number of milliseconds between automatically proceeding to the
+                // next slide, disabled when set to 0, this value can be overwritten
+                // by using a data-autoslide attribute on your slides
+                autoSlide: 0,
+
+                // Stop auto-sliding after user input
+                autoSlideStoppable: true,
+
+                // Enable slide navigation via mouse wheel
+                mouseWheel: false,
+
+                // Hides the address bar on mobile devices
+                hideAddressBar: true,
+
+                // Opens links in an iframe preview overlay
+                previewLinks: false,
+
+                // Transition speed
+                transitionSpeed: 'default', // default/fast/slow
+
+                // Transition style for full page slide backgrounds
+                backgroundTransition: 'none', // default/none/slide/concave/convex/zoom
+
+                // Number of slides away from the current that are visible
+                viewDistance: 3,
+
+                // Parallax background image
+                //parallaxBackgroundImage: '', // e.g. "'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg'"
+
+                // Parallax background size
+                //parallaxBackgroundSize: '' // CSS syntax, e.g. "2100px 900px"
+                chalkboard: {
+        		// optionally load pre-recorded chalkboard drawing from file
+            		src: "chalkboard.json",
+            	},
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+                    /* { src: 'plugin/math/math.js', async: true }, */
+                    { src: 'plugin/chalkboard/chalkboard.js' }
+                ],
+                keyboard: {
+            	    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'c' is pressed
+            	    66: function() { RevealChalkboard.toggleChalkboard() },	// toggle chalkboard when 'b' is pressed
+            	    46: function() { RevealChalkboard.clear() },	// clear chalkboard when 'DEL' is pressed
+            	     8: function() { RevealChalkboard.reset() },	// reset chalkboard data on current slide when 'BACKSPACE' is pressed
+            	    68: function() { RevealChalkboard.download() },	// downlad recorded chalkboard drawing when 'd' is pressed
+            	},
+            });
+
+        </script>
+
+    </body>
+</html>
